@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">OnTimeApp</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <string name="test">Hello <b>World</b> wawawa </string>
+
+    <string name="time_left">Your bus is leaving in</string>
+    <string name="title_activity_menu_layout">MenuLayoutActivity</string>
+    <string name="title_activity_schedule">ScheduleActivity</string>
+
+</resources>

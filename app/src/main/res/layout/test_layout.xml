@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ccc"
+    >
+
+
+    <com.kaim808.transitalarm.view.mySearchableSpinner
+        android:id="@+id/routesSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+
+
+        />
+
+    <com.kaim808.transitalarm.view.mySearchableSpinner
+        android:id="@+id/directionSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/routesSpinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+    </com.kaim808.transitalarm.view.mySearchableSpinner>
+
+    <com.kaim808.transitalarm.view.mySearchableSpinner
+        android:id="@+id/startingStopSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/directionSpinner"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <com.kaim808.transitalarm.view.mySearchableSpinner
+        android:id="@+id/destinationStopSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startingStopSpinner"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        />
+    <!--
+    <TextView
+        android:id="@+id/timeView"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/destinationStopSpinner"
+        android:text="Click me to select a time"
+        android:layout_centerHorizontal="true"
+        android:onClick="pickTime"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save"
+        android:layout_below="@id/destinationStopSpinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="writeToSavedTextView"/>
+        -->
+    <TextView
+        android:id="@+id/savedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/destinationStopSpinner"
+        android:layout_marginTop="30dp"
+        android:text="press save"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:id="@+id/startButton"
+        android:layout_below="@id/savedTextView"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="start alarm manager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startNotifications"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/stopButton"
+        android:layout_below="@id/startButton"
+        android:layout_centerHorizontal="true"
+        android:text="stop alarm manager"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:id="@+id/Sunday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunday"
+        android:onClick="pickTime"
+        android:layout_below="@id/stopButton"
+        />
+    <TextView
+        android:id="@+id/Monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monday"
+        android:layout_below="@id/Sunday"
+        android:onClick="pickTime"/>
+    <TextView
+        android:id="@+id/Tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tuesday"
+        android:layout_below="@id/Monday"
+        android:onClick="pickTime"/>
+    <TextView
+        android:id="@+id/Wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wednesday"
+        android:layout_below="@id/Tuesday"
+        android:onClick="pickTime"/>
+
+    <TextView
+        android:id="@+id/Thursday"
+        android:layout_below="@id/Wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thursday"
+        android:onClick="pickTime"
+        />
+    <TextView
+        android:id="@+id/Friday"
+        android:layout_below="@id/Thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friday"
+        android:onClick="pickTime"
+        />
+    <TextView
+        android:id="@+id/Saturday"
+        android:layout_below="@id/Friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saturday"
+        android:onClick="pickTime"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/testImageView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/textViewToBeUpdated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/testImageView"
+        android:text="Route"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:id="@+id/saveButton"
+        android:text="Save"
+        android:onClick="save"
+        android:layout_above="@id/textViewToBeUpdated"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.kaim808.transitalarm">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <service
+            android:name=".receivers_and_services.MyService"
+            android:exported="false"/>
+
+        <receiver
+            android:name=".receivers_and_services.MyAlarmReceiver"
+            android:process=":remote"/>
+        <receiver
+            android:name=".receivers_and_services.CancelMyAlarmReceiver"
+            android:process=":remote"/>
+
+        <activity android:name=".activities.TimerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MenuLayoutActivity"
+            android:label="@string/title_activity_menu_layout"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".activities.SetStopActivity">
+        </activity>
+        <activity
+            android:name=".activities.TimeScheduleActivity"
+            android:label="@string/title_activity_schedule"
+            android:theme="@style/AppTheme">
+        </activity>
+    </application>
+
+</manifest>
