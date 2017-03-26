@@ -3,13 +3,16 @@ package com.kaim808.transitalarm.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.kaim808.transitalarm.activities.QandA.setupNavigationDrawer;
+
 
 /*
  * NOTE: CURRENTLY SUPPORTS ONLY BUSES
@@ -52,6 +57,8 @@ public class SetStopActivity extends AppCompatActivity {
             - startStopOrder: mStops[mStartingStopSpinner.getSelectedItemPosition()].getStopOrder();
             - endStopOrder: mStops[mDestinationStopSpinner.getSelectedItemPosition()].getStopOrder();
          */
+
+    private int mCurrentActivityId = 1;
 
     public static final String TAG = SetStopActivity.class.getSimpleName();
     public static final String PREFS_FILE = "PREFS_FILE";
@@ -103,11 +110,15 @@ public class SetStopActivity extends AppCompatActivity {
     private ImageView destinationStopPinkPencil;
     private TextView destinationStopTextViewToBeUpdated;
 
+    private ImageButton mMenuButton;
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.set_bus_stops);
+        setContentView(R.layout.activity_set_bus_stops);
 
         mSharedPreferences = getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
@@ -133,6 +144,12 @@ public class SetStopActivity extends AppCompatActivity {
         mDirectionSpinner.setTouchViewTriggerAndGetTextViewToBeUpdated(directionPinkPencil, directionTextViewToBeUpdated);
         mStartingStopSpinner.setTouchViewTriggerAndGetTextViewToBeUpdated(startingStopPinkPencil, startingStopTextViewToBeUpdated);
         mDestinationStopSpinner.setTouchViewTriggerAndGetTextViewToBeUpdated(destinationStopPinkPencil, destinationStopTextViewToBeUpdated);
+
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mMenuButton = (ImageButton) findViewById(R.id.menu_button);
+
+        setupNavigationDrawer(mMenuButton, mDrawerLayout, mDrawerList, this, mCurrentActivityId);
 
 
         mRoutesSpinner         .setTitle("Select a Route");

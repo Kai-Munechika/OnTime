@@ -8,15 +8,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaim808.transitalarm.R;
 import com.kaim808.transitalarm.view.MenuItem;
-import com.kaim808.transitalarm.model.MenuItemAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +24,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -38,7 +38,15 @@ import static com.kaim808.transitalarm.activities.SetStopActivity.PREFS_FILE;
 
 public class TimerActivity extends AppCompatActivity {
 
+    private int mCurrentActivityId = 0;
+
     public static String TAG = TimerActivity.class.getSimpleName();
+    public static final ArrayList<MenuItem> mMenuItems = new ArrayList<MenuItem>(Arrays.asList(
+            new MenuItem("Home", R.drawable.ic_home_white_24dp),
+            new MenuItem("Set Default Bus Stops", R.drawable.star),
+            new MenuItem("Set Your Bus Schedules", R.drawable.clock),
+            new MenuItem("Q&A", R.drawable.question)));
+
     private CountDownTimer mCountDownTimer;
     private TextView countdownTextView;
     private TextView arrivesAtTextView;
@@ -56,10 +64,13 @@ public class TimerActivity extends AppCompatActivity {
 
     private CountDownTimer[] mCountDownTimers = new CountDownTimer[2];
 
+    private ImageButton mMenuButton;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
 
     OkHttpClient mClient;
+
+    private boolean saidTryAgainLater = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,27 +95,9 @@ public class TimerActivity extends AppCompatActivity {
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mMenuButton = (ImageButton) findViewById(R.id.menu_button);
 
-        ArrayList<MenuItem> menuItems = new ArrayList<>(3);
-        menuItems.add(new MenuItem("Set Default Bus Stops", R.drawable.star));
-        menuItems.add(new MenuItem("Set Your Bus Schedules", R.drawable.clock));
-        menuItems.add(new MenuItem("Q&A", R.drawable.question));
-
-        // connect Navigation drawer to string array
-        mDrawerList.setAdapter(new MenuItemAdapter(TimerActivity.this, menuItems));
-
-        // do something when something is chosen
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(TimerActivity.this, "l = " + l + " ", Toast.LENGTH_SHORT).show();
-                mDrawerLayout.closeDrawer(mDrawerList, true);
-
-            }
-        });
-
-        // set default choice to 0
-        mDrawerList.setItemChecked(0, true);
+        QandA.setupNavigationDrawer(mMenuButton, mDrawerLayout, mDrawerList, this, mCurrentActivityId);
 
 
 
@@ -137,16 +130,17 @@ public class TimerActivity extends AppCompatActivity {
                 }
             }).start();
 
-
-
         }
         else {
             Intent intent = new Intent(this, SetStopActivity.class);
             startActivity(intent);
         }
+    }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDrawerList.setItemChecked(0, true);
     }
 
     private void updateCountdown(final String directionNum, final int startStopOrder, final int destinationStopOrder, Request request) {
@@ -237,7 +231,10 @@ public class TimerActivity extends AppCompatActivity {
                         });
                     }
                     else {
-                        debugToast("No data currently available, please try again later");
+                        if (!saidTryAgainLater) {
+                            debugToast("No data currently available, please try again later");
+                            saidTryAgainLater = true;
+                        }
                     }
                 }
                 catch (IOException | JSONException e) {
@@ -270,9 +267,9 @@ public class TimerActivity extends AppCompatActivity {
         }.start();
     }
 
-    public void openMenu(View v) {
-        Intent intent = new Intent(this, MenuLayoutActivity.class);
-        startActivity(intent);
+    public static void openMenu(DrawerLayout drawerLayout, ListView drawerList) {
+//        Intent intent = new Intent(this, MenuLayoutActivity.class);
+        drawerLayout.openDrawer(drawerList, true);
         //finish();
 
 
@@ -288,6 +285,9 @@ public class TimerActivity extends AppCompatActivity {
     private void onFailureToastMessage() {
         debugToast("Network failure, try again");
     }
+
+
+
 
 
 }

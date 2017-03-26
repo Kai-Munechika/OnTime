@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import com.kaim808.transitalarm.view.TimePickerFragment;
 
 import java.util.Calendar;
 
+import static com.kaim808.transitalarm.activities.QandA.setupNavigationDrawer;
 import static com.kaim808.transitalarm.activities.SetStopActivity.DESTINATION_STOP_ORDER;
 import static com.kaim808.transitalarm.activities.SetStopActivity.DIRECTION_ID;
 import static com.kaim808.transitalarm.activities.SetStopActivity.ROUTE_ID;
@@ -28,6 +32,8 @@ import static com.kaim808.transitalarm.activities.SetStopActivity.START_STOP_ORD
 
 public class TimeScheduleActivity extends AppCompatActivity {
 
+
+    private int mCurrentActivityId = 2;
 
     // int array used to store hour(index 0) and minute(index 1) selected by the time picker fragment
     public static int[][] mTime = new int[7][2];
@@ -48,11 +54,21 @@ public class TimeScheduleActivity extends AppCompatActivity {
 
     private TextView[] timeTextViews;
 
+    private ImageButton mMenuButton;
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.set_schedule);
+        setContentView(R.layout.activity_set_schedule);
+
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mMenuButton = (ImageButton) findViewById(R.id.menu_button);
+
+        setupNavigationDrawer(mMenuButton, mDrawerLayout, mDrawerList, this, mCurrentActivityId);
 
         mSharedPreferences = getSharedPreferences(SetStopActivity.PREFS_FILE, MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
@@ -106,6 +122,8 @@ public class TimeScheduleActivity extends AppCompatActivity {
         mEditor.apply();
 
         startNotifications(v);
+
+        startActivity(new Intent(this, TimerActivity.class));
 
 
     }
@@ -200,7 +218,8 @@ public class TimeScheduleActivity extends AppCompatActivity {
 
 
                                                             // change sundayCalendar to current day of week calendar
-        debugToast("Seconds between now and next alarm: " + (sundayCalendar.getTimeInMillis() - System.currentTimeMillis())/1000 );
+//        debugToast("Seconds between now and next alarm: " + (sundayCalendar.getTimeInMillis() - System.currentTimeMillis())/1000 );
+        Toast.makeText(this, "Times Successfully Saved", Toast.LENGTH_SHORT).show();
         for (int i = 0; i < timeTextViews.length; i++) {
             if (timeTextViews[i].getText().toString().equals("None")) {
                 alarmMgr.cancel(pendingIntents[i]);

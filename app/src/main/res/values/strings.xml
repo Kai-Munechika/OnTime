@@ -13,5 +13,6 @@
     <string name="time_left">Your bus is leaving in</string>
     <string name="title_activity_menu_layout">MenuLayoutActivity</string>
     <string name="title_activity_schedule">ScheduleActivity</string>
+    <string name="title_activity_qand">QandA</string>
 
 </resources>
