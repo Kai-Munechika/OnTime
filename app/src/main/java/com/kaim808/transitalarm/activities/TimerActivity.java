@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaim808.transitalarm.R;
+import com.kaim808.transitalarm.view.MenuItem;
+import com.kaim808.transitalarm.model.MenuItemAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -50,6 +56,10 @@ public class TimerActivity extends AppCompatActivity {
 
     private CountDownTimer[] mCountDownTimers = new CountDownTimer[2];
 
+    private ListView mDrawerList;
+    private DrawerLayout mDrawerLayout;
+
+    OkHttpClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +82,30 @@ public class TimerActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         //mEditor = mSharedPreferences.edit();
 
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        ArrayList<MenuItem> menuItems = new ArrayList<>(3);
+        menuItems.add(new MenuItem("Set Default Bus Stops", R.drawable.star));
+        menuItems.add(new MenuItem("Set Your Bus Schedules", R.drawable.clock));
+        menuItems.add(new MenuItem("Q&A", R.drawable.question));
+
+        // connect Navigation drawer to string array
+        mDrawerList.setAdapter(new MenuItemAdapter(TimerActivity.this, menuItems));
+
+        // do something when something is chosen
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(TimerActivity.this, "l = " + l + " ", Toast.LENGTH_SHORT).show();
+                mDrawerLayout.closeDrawer(mDrawerList, true);
+
+            }
+        });
+
+        // set default choice to 0
+        mDrawerList.setItemChecked(0, true);
+
 
 
         if (mSharedPreferences.contains(SetStopActivity.ROUTE_ID)) {
@@ -83,16 +117,17 @@ public class TimerActivity extends AppCompatActivity {
 
             String predictionsByRouteUrl = "http://realtime.mbta.com/developer/api/v2/predictionsbyroute?api_key="+APIKey+"&route="+routeId+"&format=json";
 
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().url(predictionsByRouteUrl).build();
-            final Call call = client.newCall(request);
+//            OkHttpClient client = new OkHttpClient();
+            mClient = new OkHttpClient();
+            final Request request = new Request.Builder().url(predictionsByRouteUrl).build();
+            final Call call = mClient.newCall(request);
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     while (true) {
                         try{
-                            updateCountdown(directionNum, startStopOrder, destinationStopOrder, call);
+                            updateCountdown(directionNum, startStopOrder, destinationStopOrder, request);
                             Thread.sleep(30000);
                         }
                         catch (Exception e) {
@@ -114,7 +149,8 @@ public class TimerActivity extends AppCompatActivity {
 
     }
 
-    private void updateCountdown(final String directionNum, final int startStopOrder, final int destinationStopOrder, Call call) {
+    private void updateCountdown(final String directionNum, final int startStopOrder, final int destinationStopOrder, Request request) {
+        Call call = mClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

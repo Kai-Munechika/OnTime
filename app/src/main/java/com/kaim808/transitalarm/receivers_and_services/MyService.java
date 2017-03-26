@@ -60,6 +60,7 @@ public class MyService extends IntentService {
         startStopOrder = intent.getIntExtra(SetStopActivity.START_STOP_ORDER, -1);
         destinationStopOrder = (intent.getIntExtra(SetStopActivity.DESTINATION_STOP_ORDER, -1));
 
+        // http://realtime.mbta.com/developer/api/v2/predictionsbyroute?api_key=lASN3s3xhEC_0_BGeXgURQ&route=57&format=json
         String predictionsByRouteUrl = "http://realtime.mbta.com/developer/api/v2/predictionsbyroute?api_key="+APIKey+"&route="+routeID+"&format=json";
         String scheduleByRouteUrl = "http://realtime.mbta.com/developer/api/v2/schedulebyroute?api_key="+APIKey+"&route="+routeID+"&max_time=1440&max_trips=3&format=json";
 

@@ -68,11 +68,6 @@ public class SetStopActivity extends AppCompatActivity {
     public static String DESTINATION_STOP_ORDER = "DESTINATION_STOP_ORDER";
 
 
-
-    /* these two might be used for debugging/double-checking if needed */
-//    public static String START_STOP_ID = "START_STOP_ID";
-//    public static String DESTINATION_STOP_ID = "DESTINATION_STOP_ID";
-
     private mySearchableSpinner mRoutesSpinner;
     private mySearchableSpinner mDirectionSpinner;
     private mySearchableSpinner mStartingStopSpinner;
@@ -117,13 +112,6 @@ public class SetStopActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
 
-//        try {
-//            Bundle bundle = getIntent().getExtras();
-//            Toast.makeText(this, bundle.getInt(MyService.SECONDS_AWAY, -2), Toast.LENGTH_LONG).show();
-//        }
-//        catch (Exception e) {
-//            debugToast(""+e);
-//        }
 
         routePinkPencil = (ImageView) findViewById(R.id.routePinkPencil);
         routeTextViewToBeUpdated = (TextView) findViewById(R.id.routeNameTextView);
@@ -168,14 +156,6 @@ public class SetStopActivity extends AppCompatActivity {
     private SharedPreferences.Editor mEditor;
 
     public void save(View v) {
-
-        /* Things I need:
-            - routeID: mRoutes[mRoutesSpinner.getSelectedItemPosition()].getId();
-            - routeDirection: mDirections[mDirectionSpinner.getSelectedItemPosition()];
-            - directionNum: mDirectionSpinner.getSelectedItemPosition();
-            - startStopOrder: mStops[mStartingStopSpinner.getSelectedItemPosition()].getStopOrder();
-            - endStopOrder: mStops[mDestinationStopSpinner.getSelectedItemPosition()].getStopOrder();
-         */
 
         if (mRoutesSpinner.getCount() == 0 || mDirectionSpinner.getCount() == 0 || mStartingStopSpinner.getCount() == 0) {
             Toast.makeText(getApplicationContext(),"Please select another bus stop, or try again later", Toast.LENGTH_LONG).show();
@@ -523,19 +503,6 @@ public class SetStopActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-    // methods to be moved
-
-
-
-
-
-
-
-
 
 
 

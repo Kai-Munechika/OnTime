@@ -34,16 +34,6 @@ public class TimeScheduleActivity extends AppCompatActivity {
 
     // keys to retrieve mTime values
     public static String TIME_00 = "TIME_00";
-//                                              public static String TIME_01 = "TIME_01";
-//    public static String TIME_10 = "TIME_10"; public static String TIME_11 = "TIME_11";
-//    public static String TIME_20 = "TIME_20"; public static String TIME_21 = "TIME_21";
-//    public static String TIME_30 = "TIME_30"; public static String TIME_31 = "TIME_31";
-//    public static String TIME_40 = "TIME_40"; public static String TIME_41 = "TIME_41";
-//    public static String TIME_50 = "TIME_50"; public static String TIME_51 = "TIME_51";
-//    public static String TIME_60 = "TIME_60"; public static String TIME_61 = "TIME_61";
-
-
-
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
